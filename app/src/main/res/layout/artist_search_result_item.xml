@@ -7,7 +7,7 @@
     android:weightSum="6">
 
     <ImageView
-        android:src="@drawable/maroon_five"
+        android:src="@drawable/no_photo"
         android:id="@+id/artist_image"
         android:layout_width="0dp"
         android:padding="@dimen/thumbnail_padding"

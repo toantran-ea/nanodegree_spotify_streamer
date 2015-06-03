@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="2"
         android:padding="@dimen/thumbnail_padding"
-        android:src="@drawable/maroon_five" />
+        android:src="@drawable/no_photo" />
 
     <RelativeLayout
         android:layout_width="0dp"

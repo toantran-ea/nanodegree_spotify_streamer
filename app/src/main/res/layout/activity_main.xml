@@ -10,6 +10,8 @@
 
     <EditText
         android:id="@+id/search_text_field"
+        android:inputType="text"
+        android:imeOptions="actionSearch"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:hint="@string/hint_search_for_artist" />
@@ -22,6 +24,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/label_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/label_searching"/>
 
 
 </RelativeLayout>
