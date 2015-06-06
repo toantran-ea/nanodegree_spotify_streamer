@@ -33,7 +33,9 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
 
     public void updateDatasource(List<Artist> artists) {
         mArtists.clear();
-        mArtists.addAll(artists);
+        if(artists != null) {
+            mArtists.addAll(artists);
+        }
         notifyDataSetChanged();
     }
 

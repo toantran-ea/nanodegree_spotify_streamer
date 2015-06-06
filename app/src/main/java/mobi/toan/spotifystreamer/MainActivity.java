@@ -3,7 +3,6 @@ package mobi.toan.spotifystreamer;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
@@ -16,8 +15,6 @@ import android.widget.Toast;
 
 import java.util.List;
 
-import kaaes.spotify.webapi.android.SpotifyApi;
-import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.ArtistsPager;
 import mobi.toan.spotifystreamer.utils.Constants;
@@ -37,7 +34,7 @@ public class MainActivity extends SpotifyActivity {
     private TextView mStatusTextView;
     private SearchRecyclerViewAdapter mAdapter;
     private Toast mToast;
-    private String mPreviousQuery;
+    private String mPreviousQuery = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +49,7 @@ public class MainActivity extends SpotifyActivity {
             mPreviousQuery = savedInstanceState.getString(Constants.QUERY);
             mSearchTextView.setText(mPreviousQuery);
             mSearchTextView.setSelection(mPreviousQuery.length());
-            mAdapter.updateDatasource(DataStore.getsArtists());
+            mAdapter.updateDatasource(DataStore.getArtists());
             DataStore.resetArtist();
             toggleStatus(false);
         }
@@ -61,8 +58,8 @@ public class MainActivity extends SpotifyActivity {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("query", mPreviousQuery);
-        DataStore.setsArtists(mAdapter.getData());
+        outState.putString(Constants.QUERY, mPreviousQuery);
+        DataStore.setArtists(mAdapter.getData());
     }
 
     private void initUI() {
@@ -155,11 +152,11 @@ public class MainActivity extends SpotifyActivity {
         imm.hideSoftInputFromWindow(mSearchTextView.getWindowToken(), 0);
     }
 
-    private void toggleStatus(final boolean visible) {
+    private void toggleStatus(final boolean statusLabelVisible) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (visible) {
+                if (statusLabelVisible) {
                     mStatusTextView.setVisibility(View.VISIBLE);
                     mArtistRecyclerView.setVisibility(View.GONE);
                 } else {

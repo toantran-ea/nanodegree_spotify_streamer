@@ -2,7 +2,6 @@ package mobi.toan.spotifystreamer.views;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +34,6 @@ public class TopTrackAdapter extends RecyclerView.Adapter<TopTrackAdapter.ViewHo
     }
 
     public void updateDatasource(List<Track> tracks) {
-        Log.e(TAG, "updateDatasource");
         mTrackList.clear();
         if(tracks != null) {
             mTrackList.addAll(tracks);
@@ -46,6 +44,10 @@ public class TopTrackAdapter extends RecyclerView.Adapter<TopTrackAdapter.ViewHo
     public void reset() {
         mTrackList.clear();
         notifyDataSetChanged();
+    }
+
+    public List<Track> getData() {
+        return mTrackList;
     }
 
     @Override

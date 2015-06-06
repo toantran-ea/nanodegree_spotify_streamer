@@ -7,4 +7,6 @@ public class Constants {
     public static final String QUERY = "query";
     public static final String SELECTED_ARTIST_ID = "selected_artist_id";
     public static final String SELECTED_ARTIST = "selected_artist_name";
+    public static final String QUERY_KEY_COUNTRY = "country";
+    public static final String QUERY_VALUE_COUNTRY = "US";
 }
