@@ -1,6 +1,7 @@
 package mobi.toan.spotifystreamer;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,19 +20,19 @@ import kaaes.spotify.webapi.android.SpotifyApi;
 import kaaes.spotify.webapi.android.SpotifyService;
 import kaaes.spotify.webapi.android.models.Artist;
 import kaaes.spotify.webapi.android.models.ArtistsPager;
+import mobi.toan.spotifystreamer.utils.Constants;
 import mobi.toan.spotifystreamer.utils.DataStore;
+import mobi.toan.spotifystreamer.views.RecyclerItemClickListener;
 import mobi.toan.spotifystreamer.views.SearchRecyclerViewAdapter;
 import mobi.toan.spotifystreamer.views.SimpleDividerItemDecoration;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends SpotifyActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
     private RecyclerView mArtistRecyclerView;
-    private SpotifyApi mSpotifyApi;
-    private SpotifyService mSpotifyService;
     private EditText mSearchTextView;
     private TextView mStatusTextView;
     private SearchRecyclerViewAdapter mAdapter;
@@ -41,17 +42,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
         initUI();
-        initApi();
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         if(savedInstanceState != null) {
-            mPreviousQuery = savedInstanceState.getString("query");
+            mPreviousQuery = savedInstanceState.getString(Constants.QUERY);
             mSearchTextView.setText(mPreviousQuery);
             mSearchTextView.setSelection(mPreviousQuery.length());
             mAdapter.updateDatasource(DataStore.getsArtists());
@@ -68,6 +66,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initUI() {
+        setContentView(R.layout.activity_main);
         mArtistRecyclerView = (RecyclerView) findViewById(R.id.artist_list_view);
         mArtistRecyclerView.addItemDecoration(new SimpleDividerItemDecoration(getResources()));
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
@@ -96,6 +95,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mStatusTextView = (TextView) findViewById(R.id.label_status);
+
+        mArtistRecyclerView.addOnItemTouchListener(new RecyclerItemClickListener(this, new RecyclerItemClickListener.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                Artist artist = mAdapter.getData().get(position);
+                openTopTrackActivity(artist);
+            }
+        }));
     }
 
     private void searchForArtist(String artistName) {
@@ -119,11 +126,6 @@ public class MainActivity extends AppCompatActivity {
                 showMessage(getString(R.string.message_failed_search_artist));
             }
         });
-    }
-
-    private void initApi() {
-        mSpotifyApi = new SpotifyApi();
-        mSpotifyService = mSpotifyApi.getService();
     }
 
     private void updateRecyclerView(final List<Artist> artists) {
@@ -166,5 +168,12 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void openTopTrackActivity(Artist artist) {
+        Intent intent = new Intent(this, TopTrackActivity.class);
+        intent.putExtra(Constants.SELECTED_ARTIST_ID, artist.id);
+        intent.putExtra(Constants.SELECTED_ARTIST, artist.name);
+        startActivity(intent);
     }
 }

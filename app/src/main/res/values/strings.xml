@@ -7,4 +7,7 @@
     <string name="message_failed_search_artist">Failed to search for artist</string>
     <string name="label_searching">Searching ...</string>
     <string name="message_no_artist_found">No artist found</string>
+    <string name="message_nothing_to_show">There\'s nothing to show here</string>
+    <string name="message_loading_top_tracks">Loading top tracks for %s</string>
+    <string name="message_no_track_for_artist">No track found for %s</string>
 </resources>
