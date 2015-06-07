@@ -29,6 +29,8 @@
                     android:scheme="yourcustomprotocol" />
             </intent-filter>
         </activity>
+
+        <activity android:name=".TopTrackActivity" />
         <activity android:name="com.spotify.sdk.android.authentication.LoginActivity" />
     </application>
 

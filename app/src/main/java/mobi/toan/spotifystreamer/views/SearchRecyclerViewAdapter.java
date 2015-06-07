@@ -31,17 +31,30 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
         }
     }
 
+    /**
+     * Updates datasource and refresh recyclerview.
+     * @param artists
+     */
     public void updateDatasource(List<Artist> artists) {
         mArtists.clear();
-        mArtists.addAll(artists);
+        if(artists != null) {
+            mArtists.addAll(artists);
+        }
         notifyDataSetChanged();
     }
 
+    /**
+     * Resets datasource and refresh view.
+     */
     public void reset() {
         mArtists.clear();
         notifyDataSetChanged();
     }
 
+    /**
+     * Returns reference to current datasource.
+     * @return
+     */
     public List<Artist> getData() {
         return mArtists;
     }
@@ -63,7 +76,7 @@ public class SearchRecyclerViewAdapter extends RecyclerView.Adapter<SearchRecycl
         Artist artist = mArtists.get(position);
         holder.mArtistTextView.setText(artist.name);
         if(artist.images.size() > 0) {
-            Picasso.with(mContext).load(artist.images.get(0).url).into(holder.mThumbImageView);
+            Picasso.with(mContext).load(artist.images.get(0).url).error(R.drawable.no_photo).into(holder.mThumbImageView);
         }
     }
 

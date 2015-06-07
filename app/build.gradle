@@ -14,7 +14,7 @@ android {
 
     defaultConfig {
         applicationId "mobi.toan.spotifystreamer"
-        minSdkVersion 19
+        minSdkVersion 21
         targetSdkVersion 22
         versionCode 1
         versionName "1.0"
@@ -35,5 +35,4 @@ dependencies {
     compile 'com.squareup.okhttp:okhttp:2.2.0'
     compile 'com.android.support:recyclerview-v7:22.0.+'
     compile files('libs/spotify-web-api-android-0.1.0.jar')
-    compile 'com.spotify.sdk:spotify-auth:1.0.0-beta10@aar'
 }
