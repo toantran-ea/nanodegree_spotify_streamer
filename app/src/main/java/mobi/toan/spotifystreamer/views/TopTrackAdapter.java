@@ -21,31 +21,41 @@ import mobi.toan.spotifystreamer.R;
  * Created by toan on 6/5/15.
  */
 public class TopTrackAdapter extends RecyclerView.Adapter<TopTrackAdapter.ViewHolder> {
-    private static final String TAG = TopTrackAdapter.class.getSimpleName();
     private List<Track> mTrackList;
     private Context mContext;
 
     public TopTrackAdapter(Context context, List<Track> trackList) {
         mContext = context;
         mTrackList = new ArrayList<>();
-        if(trackList != null) {
+        if (trackList != null) {
             mTrackList.addAll(trackList);
         }
     }
 
+    /**
+     * Updates datasource and refresh view.
+     * @param tracks
+     */
     public void updateDatasource(List<Track> tracks) {
         mTrackList.clear();
-        if(tracks != null) {
+        if (tracks != null) {
             mTrackList.addAll(tracks);
         }
         notifyDataSetChanged();
     }
 
+    /**
+     * Resets datasource and refresh view.
+     */
     public void reset() {
         mTrackList.clear();
         notifyDataSetChanged();
     }
 
+    /**
+     * Returns reference to datasource.
+     * @return
+     */
     public List<Track> getData() {
         return mTrackList;
     }
@@ -62,18 +72,8 @@ public class TopTrackAdapter extends RecyclerView.Adapter<TopTrackAdapter.ViewHo
         holder.mAlbumNameTextView.setText(track.album.name);
         holder.mTrackNameTextView.setText(track.name);
         List<Image> images = track.album.images;
-        String albumThumbImage = "";
-        int size = 0;
-        if(images != null) {
-            for(Image img : images) {
-                if (img.width >  size) {
-                    size = img.width;
-                    albumThumbImage = img.url;
-                }
-            }
-        }
-
-        Picasso.with(mContext).load(albumThumbImage).into(holder.mAvatarImageView);
+        String albumThumbImage = extractImageUrl(images);
+        Picasso.with(mContext).load(albumThumbImage).error(R.drawable.no_photo).into(holder.mAvatarImageView);
     }
 
     @Override
@@ -81,7 +81,7 @@ public class TopTrackAdapter extends RecyclerView.Adapter<TopTrackAdapter.ViewHo
         return mTrackList.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView mTrackNameTextView;
         public TextView mAlbumNameTextView;
         public ImageView mAvatarImageView;
@@ -92,5 +92,24 @@ public class TopTrackAdapter extends RecyclerView.Adapter<TopTrackAdapter.ViewHo
             mAlbumNameTextView = (TextView) itemView.findViewById(R.id.album_name);
             mAvatarImageView = (ImageView) itemView.findViewById(R.id.artist_image);
         }
+    }
+
+    /**
+     * Extracts image url of the best quality image thumbnail.
+     * @param images
+     * @return
+     */
+    private String extractImageUrl(List<Image> images) {
+        String albumThumbImage = "";
+        int size = 0;
+        if (images != null) {
+            for (Image img : images) {
+                if (img.width > size) {
+                    size = img.width;
+                    albumThumbImage = img.url;
+                }
+            }
+        }
+        return albumThumbImage;
     }
 }

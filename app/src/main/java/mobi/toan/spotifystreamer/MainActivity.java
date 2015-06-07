@@ -27,8 +27,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class MainActivity extends SpotifyActivity {
-    private static final String TAG = MainActivity.class.getSimpleName();
-
     private RecyclerView mArtistRecyclerView;
     private EditText mSearchTextView;
     private TextView mStatusTextView;
@@ -152,6 +150,10 @@ public class MainActivity extends SpotifyActivity {
         imm.hideSoftInputFromWindow(mSearchTextView.getWindowToken(), 0);
     }
 
+    /**
+     * Toggles visibility of status label and recyclerview.
+     * @param statusLabelVisible
+     */
     private void toggleStatus(final boolean statusLabelVisible) {
         runOnUiThread(new Runnable() {
             @Override
