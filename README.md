@@ -2,7 +2,8 @@
 Udacity Nanodegree - Spotify Streamer App
 
 #Timeline:
-* Stage#1 Submitted - June 7, 2015
+* Stage#1 Submitted - June 7, 2015, accepted on June 9, 2015.
+* Stage#2 - in progress.
 
 
 #References and resources used in this project:
