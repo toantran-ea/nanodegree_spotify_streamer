@@ -9,4 +9,7 @@ public class Constants {
     public static final String SELECTED_ARTIST = "selected_artist_name";
     public static final String QUERY_KEY_COUNTRY = "country";
     public static final String QUERY_VALUE_COUNTRY = "US";
+    public static final String SHARED_PREFERENCES = "preferences";
+    public static final String PREF_COUNTRY_CODE = "country_code";
+    public static final String PREF_COUNTRY_NAME = "country_name";
 }

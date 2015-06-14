@@ -2,16 +2,23 @@ package mobi.toan.spotifystreamer;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.KeyEvent;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.countrypicker.CountryPicker;
+import com.countrypicker.CountryPickerListener;
 
 import java.util.List;
 
@@ -58,6 +65,39 @@ public class MainActivity extends SpotifyActivity {
         super.onSaveInstanceState(outState);
         outState.putString(Constants.QUERY, mPreviousQuery);
         DataStore.setArtists(mAdapter.getData());
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu items for use in the action bar
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle presses on the action bar items
+        switch (item.getItemId()) {
+            case R.id.action_country:
+                openCountry();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    private void openCountry() {
+        final CountryPicker countryPicker = CountryPicker.newInstance(getString(R.string.select_country));
+        countryPicker.setListener(new CountryPickerListener() {
+            @Override
+            public void onSelectCountry(String countryName, String countryCode) {
+                saveCountry(countryCode, countryName);
+                countryPicker.dismiss();
+            }
+        });
+        countryPicker.show(getSupportFragmentManager(), getString(R.string.select_country));
     }
 
     private void initUI() {
@@ -174,5 +214,13 @@ public class MainActivity extends SpotifyActivity {
         intent.putExtra(Constants.SELECTED_ARTIST_ID, artist.id);
         intent.putExtra(Constants.SELECTED_ARTIST, artist.name);
         startActivity(intent);
+    }
+
+    private void saveCountry(String countryCode, String countryName) {
+        SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString(Constants.PREF_COUNTRY_CODE, countryCode);
+        editor.putString(Constants.PREF_COUNTRY_NAME, countryName);
+        editor.commit();
     }
 }

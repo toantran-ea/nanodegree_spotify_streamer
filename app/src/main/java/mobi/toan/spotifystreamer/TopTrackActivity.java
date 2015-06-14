@@ -1,6 +1,7 @@
 package mobi.toan.spotifystreamer;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -65,7 +66,7 @@ public class TopTrackActivity extends SpotifyActivity {
     private void query() {
         if (!TextUtils.isEmpty(mArtistId)) {
             Map<String, Object> queryMap = new HashMap<>();
-            queryMap.put(Constants.QUERY_KEY_COUNTRY, Constants.QUERY_VALUE_COUNTRY);
+            queryMap.put(Constants.QUERY_KEY_COUNTRY, getCountry());
             mSpotifyService.getArtistTopTrack(mArtistId, queryMap, new Callback<Tracks>() {
                 @Override
                 public void success(Tracks tracks, Response response) {
@@ -128,5 +129,10 @@ public class TopTrackActivity extends SpotifyActivity {
                 }
             }
         });
+    }
+
+    private String getCountry() {
+        SharedPreferences preferences = getSharedPreferences(Constants.SHARED_PREFERENCES, MODE_PRIVATE);
+        return preferences.getString(Constants.PREF_COUNTRY_CODE, Constants.QUERY_VALUE_COUNTRY);
     }
 }
